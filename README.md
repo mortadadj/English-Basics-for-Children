@@ -1,16 +1,87 @@
-# jeux
+V# 📱 English Basics for Children
 
-A new Flutter project.
+## 📌 Description
 
-## Getting Started
+**English Basics for Children** is a mobile quiz-based learning application designed for children aged 4 to 6 years old.
 
-This project is a starting point for a Flutter application.
+The application is built using educational principles that support learning through:
 
-A few resources to get you started if this is your first Flutter project:
+* 👀 Visual (images and colors)
+* 🔊 Auditory (sounds and pronunciation)
+* 🎮 Interaction (quiz and user experience)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+It helps children learn basic English in a fun and engaging way.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 🎯 Features
+
+* 🧒 Child-friendly interface (simple and colorful)
+* ❓ Quiz-based learning system
+* 🖼 Visual learning using images
+* 🔊 Audio support for pronunciation
+* 🧠 Learning through interaction and experience
+* 🧾 Card-based or level-based progression system
+* 🏆 Score calculation based on correct answers
+
+---
+
+## 🛠 Technologies Used
+
+* Flutter (Dart)
+* Android Studio / VS Code
+
+---
+
+## 📸 Screenshots
+
+
+---
+
+## 🚀 Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/your-username/english-basics-for-children.git
+```
+
+2. Navigate to the project:
+
+```bash
+cd english-basics-for-children
+```
+
+3. Install dependencies:
+
+```bash
+flutter pub get
+```
+
+4. Run the app:
+
+```bash
+flutter run
+```
+
+---
+
+## 🎮 How It Works
+
+* The child answers simple quiz questions
+* Each correct answer increases the score
+* The app may use cards or levels to organize learning
+* The system encourages learning through repetition and interaction
+
+---
+
+## 👨‍💻 Author
+
+Mortada Djebbouri
+
+---
+
+## 📧 Contact
+
+[31mortadadjabouri@gmail.com](mailto:31mortadadjabouri@gmail.com)
+
