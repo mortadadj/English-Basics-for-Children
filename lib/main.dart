@@ -3,14 +3,15 @@ import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jeux/utils/custom_app_bar.dart';
 import 'package:jeux/widget/start.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
 //import 'package:audioplayers/audioplayers.dart';
-import 'package:jeux/utils/score_manager.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jeux/utils/app_styles.dart';
 
 
 void main() {
@@ -35,15 +36,18 @@ class _MyAppState extends State<MyApp> {
       designSize: const Size(360, 690),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (BuildContext context, Widget? child) {
+      builder: (context, child) {
         return MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-          ),
           debugShowCheckedModeBanner: false,
-          home: const MyHomePage(),
+          title: 'Flutter Demo',
+
+          // 🔥 IMPORTANT
+          builder: (context, child) {
+
+            return child!;
+          },
+
+          home: MyHomePage(), // ⚠️ PAS const
         );
       },
     );
@@ -61,53 +65,16 @@ class _MyWidgetState extends State<MyHomePage> {
   @override
   double _scale = 1.0;
 
-  int score = 0;
 
   @override
   void initState() {
     super.initState();
-    loadScore();
   }
 
-  Future<void> loadScore() async {
-    final s = await ScoreManager.getScore();
-    setState(() {
-      score = s;
-    });
-  }
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(223, 225, 124, 0),
-        toolbarHeight: 55.h,
-        title: Text(
-          "Learn with Stitche",
-          style: TextStyle(
-            fontSize: 13.sp,
-            color: Colors.white,
-            wordSpacing: 1.sp,
-            letterSpacing: 0.3.sp,
-          ),
-        ),
-        leading: const Image(
-          image: AssetImage("images/stitch.png"),
-        ),
-        actions: [
-          Icon(
-            Icons.star_border_purple500_rounded,
-            size: 16.sp,
-            color: Colors.black,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 5),
-            child: Text(
-              score.toString(),
-              style: TextStyle(color: Colors.white, fontSize: 13.sp),
-            ),
-          ),
-        ],
-      ),
+      appBar: const CustomAppBar(),
 
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -148,7 +115,8 @@ class _MyWidgetState extends State<MyHomePage> {
                     onTap: () async {
                       final player = AudioPlayer();
                       await player.play(AssetSource('startAR.mp3'));
-                      await Future.delayed(const Duration(milliseconds: 900));
+                      await Future.delayed(
+                          const Duration(milliseconds: 900));
                       await player.play(AssetSource('start.mp3'));
 
                       Navigator.push(
@@ -185,10 +153,7 @@ class _MyWidgetState extends State<MyHomePage> {
                               const SizedBox(width: 10),
                               Text(
                                 "START",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12.sp,
-                                ),
+                                style: AppStyles.buttonText,
                               ),
                             ],
                           ),

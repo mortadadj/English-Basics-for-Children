@@ -6,7 +6,9 @@ import 'package:jeux/animls/animals.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:jeux/utils/score_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jeux/utils/app_styles.dart';
 
+import '../utils/custom_app_bar.dart';
 
 class start extends StatefulWidget {
   const start({Key? key}) : super(key: key);
@@ -39,38 +41,17 @@ class  _start extends State<start> {
   @override
   void initState() {
     super.initState();
-    loadScore();
+
   }
 
   Future<void> loadScore() async {
     final s = await ScoreManager.getScore();
-    setState(() {
-      score = s;
-    });
+
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 3,
-        backgroundColor: const Color.fromARGB(223, 225, 124, 0),
-        toolbarHeight: 55,
-        title: const Text(
-          "Learn with Stitche",
-          style: TextStyle(
-            fontSize: 18, color: Colors.white, letterSpacing: 0.5,
-          ),
-        ),
-        leading: Image.asset("images/stitch.png"),
-        actions:  [
-          Icon(Icons.star_border_rounded, size: 22, color: Colors.black),
-          SizedBox(width: 8),
-
-          Text(score.toString(),
-              style: TextStyle(color: Colors.white, fontSize: 13.sp)),
-          SizedBox(width: 10),
-        ],
-      ),
+      appBar: const CustomAppBar(),
 
 
       body: LayoutBuilder(
