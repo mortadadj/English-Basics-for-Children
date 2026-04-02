@@ -8,6 +8,9 @@ import 'package:jeux/colors/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jeux/utils/score_manager.dart';
 
+import '../utils/app_styles.dart';
+import 'alphabet.dart';
+
 class CardItem {
   final String urlImage;
   final String titel;
@@ -243,48 +246,72 @@ class _testAlphabetState extends State<testAlphabet> {
     var scour = 0;
 
     return Scaffold(
-      appBar: AppBar(
-        elevation: 3,
-        backgroundColor: Color.fromARGB(223, 225, 124, 0),
-        toolbarHeight: 55.h,
-        title: Text(
-          "Learn with Stitche",
-          style: TextStyle(
-            fontSize: 13.sp,
-            color: Colors.white,
-            wordSpacing: 1.sp,
-            letterSpacing: 0.3.sp,
+
+        appBar: AppBar(
+          backgroundColor: Color.fromARGB(223, 225, 124, 0),
+          toolbarHeight: 55.h,
+          title: Text(
+            "Learn with Stitche",
+            style: AppStyles.appBarTitle,
           ),
-        ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (_) => learacolors(),
-              ),
-            );
-          },
-          icon: Icon(
-            Icons.navigate_before_outlined,
-            size: 16.sp,
-            color: Colors.black,
-          ),
-        ),
-        actions: [
-          Icon(
-            Icons.star_border_purple500_rounded,
-            size: 16.sp,
-            color: Colors.black,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 5),
-            child: Text(
-              score.toString(),
-              style: TextStyle(color: Colors.white, fontSize: 13.sp),
+          leading: IconButton(
+            onPressed: () async {
+              AudioPlayer player = AudioPlayer();
+              Source path = AssetSource('return_ar.mp3');
+              await player.play(path);
+
+              var duration = const Duration(milliseconds: 900);
+              sleep(duration);
+
+              AudioPlayer player1 = AudioPlayer();
+              Source path1 = AssetSource('return.mp3');
+              await player1.play(path1);
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (_) =>  learalpha(),
+                ),
+              );
+            },
+            icon: Icon(
+              Icons.navigate_before_outlined,
+              size: 16.sp,
+              color: Colors.black,
             ),
-          )
-        ],
-      ),
+          ),
+          actions: [
+            FutureBuilder<int>(
+              future: ScoreManager.getScore(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return SizedBox(); // ou CircularProgressIndicator()
+                }
+
+                final score = snapshot.data!;
+
+                return Padding(
+                  padding: AppStyles.scorePadding,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.star_border_purple500_rounded,
+                        size: 16.sp,
+                        color: Colors.black,
+                      ),
+                      SizedBox(width: 5.w),
+                      Text(
+                        score.toString(),
+                        style: AppStyles.score,
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+
+
 
 
       body: Column(

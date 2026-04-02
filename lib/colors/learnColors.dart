@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jeux/colors/colors.dart';
 
+import '../utils/app_styles.dart';
+import '../utils/score_manager.dart';
+
 class colorsItem {
   final String urlImage;
   final String titel;
@@ -104,21 +107,26 @@ class _learnColorsState extends State<learnColors> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
-        elevation: 3,
         backgroundColor: Color.fromARGB(223, 225, 124, 0),
         toolbarHeight: 55.h,
         title: Text(
           "Learn with Stitche",
-          style: TextStyle(
-            fontSize: 13.sp,
-            color: Colors.white,
-            wordSpacing: 1.sp,
-            letterSpacing: 0.3.sp,
-          ),
+          style: AppStyles.appBarTitle,
         ),
         leading: IconButton(
-          onPressed: () {
+          onPressed: () async {
+            AudioPlayer player = AudioPlayer();
+            Source path = AssetSource('return_ar.mp3');
+            await player.play(path);
+
+            var duration = const Duration(milliseconds: 900);
+            sleep(duration);
+
+            AudioPlayer player1 = AudioPlayer();
+            Source path1 = AssetSource('return.mp3');
+            await player1.play(path1);
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (_) => learacolors(),
@@ -132,20 +140,39 @@ class _learnColorsState extends State<learnColors> {
           ),
         ),
         actions: [
-          Icon(
-            Icons.star_border_purple500_rounded,
-            size: 16.sp,
-            color: Colors.black,
+          FutureBuilder<int>(
+            future: ScoreManager.getScore(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return SizedBox(); // ou CircularProgressIndicator()
+              }
+
+              final score = snapshot.data!;
+
+              return Padding(
+                padding: AppStyles.scorePadding,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.star_border_purple500_rounded,
+                      size: 16.sp,
+                      color: Colors.black,
+                    ),
+                    SizedBox(width: 5.w),
+                    Text(
+                      score.toString(),
+                      style: AppStyles.score,
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 5),
-            child: Text(
-              "100",
-              style: TextStyle(color: Colors.white, fontSize: 13.sp),
-            ),
-          )
         ],
       ),
+
+
       body: Container(
         child: ListView.separated(
           scrollDirection: Axis.horizontal,

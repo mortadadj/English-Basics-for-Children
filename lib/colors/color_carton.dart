@@ -10,6 +10,7 @@ import 'package:jeux/colors/color_carton4.dart';
 import 'package:jeux/colors/colors.dart';
 import 'package:jeux/utils/score_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:jeux/utils/app_styles.dart';
 
 
 class Card_carton {
@@ -62,19 +63,11 @@ class _color_cartonState extends State<color_carton> {
   @override
 
 
-  int score = 0;
-  @override
-  void initState() {
-    super.initState();
-    loadScore();
-  }
 
-  Future<void> loadScore() async {
-    final s = await ScoreManager.getScore();
-    setState(() {
-      score = s;
-    });
-  }
+  @override
+
+
+
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,13 +75,8 @@ class _color_cartonState extends State<color_carton> {
         backgroundColor: Color.fromARGB(223, 225, 124, 0),
         toolbarHeight: 55.h,
         title: Text(
-          "CARTON",
-          style: TextStyle(
-            fontSize: 13.sp,
-            color: Colors.white,
-            wordSpacing: 1.sp,
-            letterSpacing: 0.3.sp,
-          ),
+          "CARTOON",
+          style: AppStyles.appBarTitle,
         ),
         leading: IconButton(
           onPressed: () {
@@ -104,20 +92,37 @@ class _color_cartonState extends State<color_carton> {
             color: Colors.black,
           ),
         ),
-        actions: [
-          Icon(
-            Icons.star_border_purple500_rounded,
-            size: 16.sp,
-            color: Colors.black,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 5),
-            child: Text(
-              score.toString(),
-              style: TextStyle(color: Colors.white, fontSize: 13.sp),
+          actions: [
+            FutureBuilder<int>(
+              future: ScoreManager.getScore(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return SizedBox(); // ou CircularProgressIndicator()
+                }
+
+                final score = snapshot.data!;
+
+                return Padding(
+                  padding: AppStyles.scorePadding,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.star_border_purple500_rounded,
+                        size: 16.sp,
+                        color: Colors.black,
+                      ),
+                      SizedBox(width: 5.w),
+                      Text(
+                        score.toString(),
+                        style: AppStyles.score,
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
-          )
-        ],
+          ],
       ),
       body: Container(
         color: Color.fromARGB(158, 243, 149, 33),

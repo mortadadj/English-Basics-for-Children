@@ -6,6 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:jeux/animls/animls_carton.dart';
 import 'package:video_player/video_player.dart';
 
+import '../utils/app_styles.dart';
+import '../utils/score_manager.dart';
+
 class animls_carton4 extends StatefulWidget {
   const animls_carton4({super.key});
 
@@ -33,13 +36,8 @@ class _animls_carton4State extends State<animls_carton4> {
         backgroundColor: Color.fromARGB(223, 225, 124, 0),
         toolbarHeight: 55.h,
         title: Text(
-          "CARTON",
-          style: TextStyle(
-            fontSize: 13.sp,
-            color: Colors.white,
-            wordSpacing: 1.sp,
-            letterSpacing: 0.3.sp,
-          ),
+          "CARTOON",
+          style: AppStyles.appBarTitle,
         ),
         leading: IconButton(
           onPressed: () async {
@@ -66,18 +64,35 @@ class _animls_carton4State extends State<animls_carton4> {
           ),
         ),
         actions: [
-          Icon(
-            Icons.star_border_purple500_rounded,
-            size: 16.sp,
-            color: Colors.black,
+          FutureBuilder<int>(
+            future: ScoreManager.getScore(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return SizedBox(); // ou CircularProgressIndicator()
+              }
+
+              final score = snapshot.data!;
+
+              return Padding(
+                padding: AppStyles.scorePadding,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.star_border_purple500_rounded,
+                      size: 16.sp,
+                      color: Colors.black,
+                    ),
+                    SizedBox(width: 5.w),
+                    Text(
+                      score.toString(),
+                      style: AppStyles.score,
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 5),
-            child: Text(
-              "100",
-              style: TextStyle(color: Colors.white, fontSize: 13.sp),
-            ),
-          )
         ],
       ),
       body: Center(
